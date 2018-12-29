@@ -21,3 +21,13 @@ export default ({
     ), {})
   )
 }
+
+export const sql = function(string) {
+  if (arguments.length > 1)
+    throw new Error('HashQL does not support dynamic variables')
+
+  if (!Array.isArray(string) || typeof string[0] !== 'string')
+    throw new Error('You have to call sql as a template string — sql``')
+
+  return string[0]
+}
