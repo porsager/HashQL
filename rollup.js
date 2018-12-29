@@ -17,7 +17,7 @@ module.exports = ({
       const query = sql.trim().split('\n').map(x => x.trim()).filter(x => x).join(' ')
       const hash = md5(query)
       queries[hash] = query
-      return '\'' + hash + '\''
+      return '"' + hash + '"'
     }
   }), {
     generateBundle: () => output(queries)
