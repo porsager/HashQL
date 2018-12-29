@@ -1,0 +1,12 @@
+{
+  "name": "hashql",
+  "version": "0.0.1",
+  "description": "hashql",
+  "main": "client.js",
+  "module": "client.js",
+  "author": "Rasmus Porsager",
+  "license": "WTFPL",
+  "dependencies": {
+    "rollup-plugin-modify": "2.0.1"
+  }
+}
