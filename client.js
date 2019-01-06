@@ -11,7 +11,9 @@ export default ({
 
       return {
         method,
-        sql: sql[0],
+        sql: Array.isArray(sql)
+          ? sql[0]
+          : sql,
         input
       }
     },
