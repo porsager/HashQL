@@ -1,1 +1,1 @@
-# Hashql
+# HashQL

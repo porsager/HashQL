@@ -1,7 +1,7 @@
 {
   "name": "hashql",
   "version": "0.0.2",
-  "description": "hashql",
+  "description": "HashQL",
   "main": "client.js",
   "module": "client.js",
   "author": "Rasmus Porsager",
