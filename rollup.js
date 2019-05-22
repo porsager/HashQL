@@ -2,7 +2,7 @@ const modify = require('rollup-plugin-modify')
     , crypto = require('crypto')
 
 const md5 = s => crypto
-  .createHmac('md5', 'wat')
+  .createHash('md5')
   .update(s)
   .digest('hex')
 
