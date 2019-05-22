@@ -1,6 +1,6 @@
 {
   "name": "hashql",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "HashQL",
   "main": "client.js",
   "module": "client.js",
