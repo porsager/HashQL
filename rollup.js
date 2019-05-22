@@ -17,9 +17,8 @@ module.exports = ({
       if (!sql)
         return _
 
-      const query = sql.trim().split('\n').map(x => x.trim()).filter(x => x).join(' ')
-      const hash = md5(query)
-      queries[hash] = query
+      const hash = md5(sql)
+      queries[hash] = sql
       return '"' + hash + '"'
     }
   }), {
