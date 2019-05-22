@@ -7,6 +7,6 @@
   "author": "Rasmus Porsager",
   "license": "WTFPL",
   "dependencies": {
-    "rollup-plugin-modify": "2.0.1"
+    "rollup-plugin-modify": "3.0.0"
   }
 }
