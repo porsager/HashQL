@@ -1,41 +1,29 @@
-const methodNames = ['none', 'one', 'many', 'any', 'oneOrNone']
-    , isMD5 = /^[0-9a-f]{32}$/i
+function Query(name, hql, args) {
+  this.name = name
+  this.hql = hql
+  this.args = args.map(x => {
+    if (!x || !(x.query instanceof Query))
+      return { value: x }
 
-export default ({
-  request
-}) => {
-  const methods = methodNames.reduce((acc, method) => (
-    acc[method] = (sql, input) => {
-      if (!Array.isArray(sql) && !isMD5.test(sql))
-        throw new Error('Expected sql`` or MD5 hash')
-
-      return {
-        method,
-        sql: Array.isArray(sql)
-          ? sql[0]
-          : sql,
-        input
-      }
-    },
-    acc
-  ), {})
-
-  return Object.assign({
-    tx: (fn) => request(fn(methods))
-  },
-    Object.keys(methods).reduce((acc, m) => (
-      acc[m] = (...args) => request(methods[m](...args)),
-      acc
-    ), {})
-  )
+    x.cancelled = true
+    return { query: x.query }
+  })
 }
 
-export const sql = function(raw) {
-  if (arguments.length > 1)
-    throw new Error('HashQL does not support dynamic variables')
+function HashQL(name, method) {
+  return function hql(x, ...args) {
+    const promise = Promise.resolve().then(() => {
+      if (promise.cancelled)
+        return
+      const result = method(promise.query)
+      promise.query = null
+      return Promise.resolve(result)
+    })
 
-  if (!Array.isArray(raw) || typeof raw[0] !== 'string')
-    throw new Error('You have to call sql as a template string — sql``')
+    promise.query = new Query(name, x, args)
 
-  return raw
+    return promise
+  }
 }
+
+export default HashQL

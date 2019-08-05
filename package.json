@@ -7,6 +7,11 @@
   "author": "Rasmus Porsager",
   "license": "WTFPL",
   "dependencies": {
-    "rollup-plugin-modify": "3.0.0"
+    "ast-types": "0.13.2",
+    "pg-monitor": "1.2.0",
+    "pg-promise": "9.0.0",
+    "recast": "0.18.1",
+    "rollup": "1.17.0",
+    "wright": "2.0.0-rc1"
   }
 }
