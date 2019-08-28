@@ -1,27 +1,48 @@
-const modify = require('rollup-plugin-modify')
-    , crypto = require('crypto')
-
-const md5 = s => crypto
-  .createHash('md5')
-  .update(s)
-  .digest('hex')
+const crypto = require('crypto')
+    , recast = require('recast')
+    , astTypes = require('ast-types')
 
 module.exports = ({
+  tags,
   output
 }) => {
   const queries = {}
+      , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`', 'g')
 
-  return Object.assign(modify({
-    find: /sql`([\s\S]*?)`/,
-    replace: (_, sql) => {
-      if (!sql)
-        return _
+  return {
+    transform: function(code, id) {
+      if (!matchRegex.test(code))
+        return null
 
-      const hash = md5(sql)
-      queries[hash] = sql
-      return '"' + hash + '"'
-    }
-  }), {
+      const ast = this.parse(code)
+      astTypes.visit(ast, {
+        visitTaggedTemplateExpression(path) {
+          const n = path.node
+          n.type = 'CallExpression'
+          n.arguments = [
+            {
+              type: 'Literal',
+              value: add(n.quasi.quasis.map(x => x.value.cooked))
+            },
+            ...n.quasi.expressions
+          ]
+          n.callee = n.tag
+          this.traverse(path)
+        }
+      })
+      return { code: recast.print(ast).code }
+    },
     generateBundle: () => output(queries)
-  })
+  }
+
+  function add(s) {
+    const md5 = crypto
+      .createHash('md5')
+      .update(s.join())
+      .digest('hex')
+
+    queries[md5] = s
+
+    return md5
+  }
 }

@@ -1,12 +1,19 @@
 {
   "name": "hashql",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "HashQL",
   "main": "client.js",
   "module": "client.js",
   "author": "Rasmus Porsager",
   "license": "WTFPL",
   "dependencies": {
-    "rollup-plugin-modify": "3.0.0"
+    "ast-types": "0.13.2",
+    "recast": "0.18.2",
+    "rollup": "1.20.3"
+  },
+  "devDependencies": {
+    "pg-monitor": "1.2.1",
+    "pg-promise": "9.1.1",
+    "wright": "2.0.0-rc1"
   }
 }
