@@ -18,6 +18,10 @@ module.exports = ({
       astTypes.visit(ast, {
         visitTaggedTemplateExpression(path) {
           const n = path.node
+
+          if (!tags.includes(n.tag.name))
+            return this.traverse(path)
+
           n.type = 'CallExpression'
           n.arguments = [
             {
