@@ -19,18 +19,19 @@ ui.columns = document.body.appendChild(
 
 document.body.appendChild(pre)
 
-const req = (x) => {
+const { sql, node } = HQL(['sql', 'node'], ({
+  tag,
+  hash,
+  input
+}) => {
   return fetch('http://localhost:8000', {
     method: 'POST',
     headers: {
       'Content-Type': 'JSON'
     },
-    body: JSON.stringify(x)
+    body: JSON.stringify({ tag, hash, input })
   }).then(r => r.json())
-}
-
-const sql = HQL('sql', req)
-const node = HQL('node', req)
+})
 
 function search() {
   sql`

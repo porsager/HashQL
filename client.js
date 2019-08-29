@@ -1,7 +1,7 @@
-function Query(name, hql, args) {
-  this.name = name
-  this.hql = hql
-  this.args = args.map(x => {
+function Query(tag, hash, input) {
+  this.tag = tag
+  this.hash = hash
+  this.input = input.map(x => {
     if (!x || !(x.query instanceof Query))
       return { value: x }
 
@@ -10,20 +10,23 @@ function Query(name, hql, args) {
   })
 }
 
-function HashQL(name, method) {
-  return function hql(x, ...args) {
-    const promise = Promise.resolve().then(() => {
-      if (promise.cancelled)
-        return
-      const result = method(promise.query)
-      promise.query = null
-      return Promise.resolve(result)
-    })
+function HashQL(tags, handler) {
+  return tags.reduce((acc, tag) => ({
+    ...acc,
+    [tag]: function(hash, ...input) {
+      const promise = Promise.resolve().then(() => {
+        if (promise.cancelled)
+          return
+        const result = handler(promise.query)
+        promise.query = null
+        return Promise.resolve(result)
+      })
 
-    promise.query = new Query(name, x, args)
+      promise.query = new Query(tag, hash, input)
 
-    return promise
-  }
+      return promise
+    }
+  }), {})
 }
 
 export default HashQL

@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  function Query(name, hql, args) {
-    this.name = name;
-    this.hql = hql;
-    this.args = args.map(x => {
+  function Query(tag, hash, input) {
+    this.tag = tag;
+    this.hash = hash;
+    this.input = input.map(x => {
       if (!x || !(x.query instanceof Query))
         return { value: x }
 
@@ -13,20 +13,23 @@
     });
   }
 
-  function HashQL(name, method) {
-    return function hql(x, ...args) {
-      const promise = Promise.resolve().then(() => {
-        if (promise.cancelled)
-          return
-        const result = method(promise.query);
-        promise.query = null;
-        return Promise.resolve(result)
-      });
+  function HashQL(tags, handler) {
+    return tags.reduce((acc, tag) => ({
+      ...acc,
+      [tag]: function(hash, ...input) {
+        const promise = Promise.resolve().then(() => {
+          if (promise.cancelled)
+            return
+          const result = handler(promise.query);
+          promise.query = null;
+          return Promise.resolve(result)
+        });
 
-      promise.query = new Query(name, x, args);
+        promise.query = new Query(tag, hash, input);
 
-      return promise
-    }
+        return promise
+      }
+    }), {})
   }
 
   const pre = document.createElement("pre");
@@ -43,7 +46,16 @@
 
   document.body.appendChild(pre);
 
-  const req = x => {
+  const {
+      sql,
+      node
+  } = HashQL(["sql", "node"], (
+      {
+          tag,
+          hash,
+          input
+      }
+  ) => {
       return fetch("http://localhost:8000", {
           method: "POST",
 
@@ -51,12 +63,13 @@
               "Content-Type": "JSON"
           },
 
-          body: JSON.stringify(x)
+          body: JSON.stringify({
+              tag,
+              hash,
+              input
+          })
       }).then(r => r.json());
-  };
-
-  const sql = HashQL("sql", req);
-  const node = HashQL("node", req);
+  });
 
   function search() {
       sql(

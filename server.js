@@ -1,15 +1,14 @@
 module.exports = function(queries, handlers) {
-  return async function evaluate(...xs) {
-    const { name, hql, args } = xs.pop()
+  return async function evaluate({ tag, hash, input }) {
     return Promise.resolve(
-      handlers[name].apply(handlers[name], xs.concat([
-        typeof queries === 'function' ? queries(hql) : queries[hql],
-        ...(await Promise.all(args.map(x =>
+      handlers[tag](
+        typeof queries === 'function' ? queries(hash) : queries[hash],
+        ...(await Promise.all(input.map(x =>
           x.query
             ? evaluate(x.query)
             : x.value
         )))
-      ]))
+      )
     )
   }
 }
