@@ -14,7 +14,10 @@ module.exports = ({
       if (!matchRegex.test(code))
         return null
 
-      const ast = this.parse(code)
+      const ast = recast.parse(code, {
+        sourceFileName: id
+      })
+
       astTypes.visit(ast, {
         visitTaggedTemplateExpression(path) {
           const n = path.node
@@ -34,7 +37,8 @@ module.exports = ({
           this.traverse(path)
         }
       })
-      return { code: recast.print(ast).code }
+
+      return recast.print(ast, { sourceMapName: 'map.json' })
     },
     generateBundle: () => output(queries)
   }
