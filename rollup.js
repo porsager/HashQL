@@ -11,7 +11,7 @@ module.exports = ({
 
   return {
     transform: function(code, id) {
-      if (!matchRegex.test(code))
+      if (!code.match(matchRegex))
         return null
 
       const ast = recast.parse(code, {
