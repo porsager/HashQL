@@ -7,7 +7,7 @@ module.exports = ({
   output
 }) => {
   const queries = {}
-      , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`', 'g')
+      , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
 
   return {
     transform: function(code, id) {
