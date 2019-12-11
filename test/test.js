@@ -12,4 +12,4 @@ function fetch() {
     `
 }
 
-fetch()
+fetch();

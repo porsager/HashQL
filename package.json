@@ -1,19 +1,24 @@
 {
   "name": "hashql",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "HashQL",
   "main": "client.js",
   "module": "client.js",
-  "author": "Rasmus Porsager",
+  "author": "Rasmus Porsager <rasmus@porsager.com>",
+  "repository": "porsager/hashql",
   "license": "WTFPL",
   "dependencies": {
+    "acorn": "7.1.0",
     "ast-types": "0.13.2",
-    "recast": "0.18.2",
-    "rollup": "1.20.3"
+    "recast": "0.18.5",
+    "rollup": "1.27.10"
   },
   "devDependencies": {
-    "pg-monitor": "1.2.1",
-    "pg-promise": "9.1.1",
-    "wright": "2.0.0-rc1"
-  }
+    "wright": "2.0.0-rc8"
+  },
+  "files": [
+    "rollup.js",
+    "client.js",
+    "server.js"
+  ]
 }
