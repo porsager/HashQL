@@ -1,17 +1,15 @@
 const http = require('http')
     , ey = require('ey')
     , bodyParser = require('body-parser')
-    , Pgp = require('pg-promise')
+    , postgres = require('peegee')
     , queries = require('./queries.json')
     , HashQL = require('../../server.js')
 
-const options = {}
-const pgp = Pgp(options)
-const db = pgp('postgres://localhost/beat')
+const sql = postgres('postgres://localhost/beat')
 
 const hql = HashQL(queries, {
   sql: (xs, ...args) =>
-    db.query(xs.slice(1).reduce((acc, x, i) => acc + '$' + (i + 1) + x, xs[0]), args)
+    sql.unsafe(xs.slice(1).reduce((acc, x, i) => acc + '$' + (i + 1) + x, xs[0]), args)
   ,
   node: (xs, ...args) =>
     eval(xs.slice(1).reduce((acc, x, i) => acc + JSON.stringify(args[i]) + x, xs[0]))
