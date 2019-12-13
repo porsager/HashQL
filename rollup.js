@@ -49,7 +49,7 @@ module.exports = ({
 
       return recast.print(ast, { sourceMapName: 'map.json' })
     },
-    generateBundle: () => output(queries)
+    buildEnd: () => output(queries)
   }
 
   function add(s) {

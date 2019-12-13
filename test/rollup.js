@@ -22,3 +22,4 @@ rollup.rollup({
     column: 5
   })
 })
+.catch(console.error)
