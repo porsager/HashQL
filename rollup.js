@@ -19,7 +19,7 @@ module.exports = ({
           parse(source, opts) {
             return require('acorn').parse(source, {
               ...opts,
-              ecmaVersion: 2019,
+              ecmaVersion: 2020,
               sourceType: 'module'
             })
           }
