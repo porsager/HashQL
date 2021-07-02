@@ -8,12 +8,13 @@
   "repository": "porsager/hashql",
   "license": "WTFPL",
   "dependencies": {
-    "acorn": "7.1.1",
-    "ast-types": "0.13.3",
-    "recast": "0.19.1"
+    "@rollup/pluginutils": "4.1.0",
+    "acorn": "8.4.1",
+    "ast-types": "0.14.2",
+    "recast": "0.20.4"
   },
   "devDependencies": {
-    "rollup": "2.7.6",
+    "rollup": "2.52.7",
     "wright": "2.0.1"
   },
   "files": [
