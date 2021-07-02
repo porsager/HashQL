@@ -8,11 +8,11 @@ const http = require('http')
 const sql = postgres('postgres://localhost/beat')
 
 const hql = HashQL(queries, {
-  sql: (xs, ...args) =>
-    sql.unsafe(xs.slice(1).reduce((acc, x, i) => acc + '$' + (i + 1) + x, xs[0]), args)
+  sql: (query, input, context) =>
+    sql.unsafe(query.slice(1).reduce((acc, x, i) => acc + '$' + (i + 1) + x, query[0]), input)
   ,
-  node: (xs, ...args) =>
-    eval(xs.slice(1).reduce((acc, x, i) => acc + JSON.stringify(args[i]) + x, xs[0]))
+  node: (query, input, context) =>
+    eval(query.slice(1).reduce((acc, x, i) => acc + JSON.stringify(input[i]) + x, query[0]))
 })
 
 const app = ey()
