@@ -11,7 +11,7 @@ function Query(tag, hash, input) {
 }
 
 function HashQL(tags, handler) {
-  return tags.reduce((acc, tag) => ({
+  return [].concat(tags).reduce((acc, tag) => ({
     ...acc,
     [tag]: function(hash, ...input) {
       const promise = Promise.resolve().then(() => {
