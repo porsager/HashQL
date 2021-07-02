@@ -1,16 +1,23 @@
 const crypto = require('crypto')
     , recast = require('recast')
     , astTypes = require('ast-types')
+    , util = require('@rollup/pluginutils')
 
 module.exports = ({
   tags,
-  output
+  output,
+  include,
+  exclude
 }) => {
   const queries = {}
       , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
+      , filter = util.createFilter(include, exclude)
 
   return {
     transform: function(code, id) {
+      if (!filter(id))
+        return
+
       if (!code.match(matchRegex))
         return null
 
