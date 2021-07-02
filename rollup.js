@@ -45,7 +45,7 @@ module.exports = ({
           n.arguments = [
             {
               type: 'Literal',
-              value: add(n.quasi.quasis.map(x => x.value.cooked))
+              value: add(n.tag.name, n.quasi.quasis.map(x => x.value.cooked))
             },
             ...n.quasi.expressions
           ]
@@ -59,13 +59,14 @@ module.exports = ({
     buildEnd: () => output(queries)
   }
 
-  function add(s) {
+  function add(tag, query) {
     const md5 = crypto
       .createHash('md5')
-      .update(s.join())
+      .update(query.join())
       .digest('hex')
 
-    queries[md5] = s
+    tag in queries === false && (queries[tag] = {})
+    queries[tag][md5] = query
 
     return md5
   }
