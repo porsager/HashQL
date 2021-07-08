@@ -27,7 +27,7 @@ await users = sql`select * from users`
 
 # The Build module 
 
-The job of the build module<sup>*</sup> is to replace all HashQL instances in the client code, replace them with it's hash, and store the pair for lookup by the server (could be in a json file or database) 
+The job of the build module<sup>*</sup> is to replace all HashQL instances in the client code with their corresponding hashes, and to store the pair for lookup by the server (could be in a json file or database).  
 
 ```js
 import HashQL from 'hashql/rollup'
