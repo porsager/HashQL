@@ -11,6 +11,7 @@
     "@rollup/pluginutils": "4.2.0",
     "acorn": "8.7.0",
     "ast-types": "0.14.2",
+    "esbuild": "0.14.34",
     "recast": "0.20.5"
   },
   "devDependencies": {
