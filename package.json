@@ -8,14 +8,14 @@
   "repository": "porsager/hashql",
   "license": "WTFPL",
   "dependencies": {
-    "@rollup/pluginutils": "4.1.0",
-    "acorn": "8.4.1",
+    "@rollup/pluginutils": "4.2.0",
+    "acorn": "8.7.0",
     "ast-types": "0.14.2",
-    "recast": "0.20.4"
+    "recast": "0.20.5"
   },
   "devDependencies": {
-    "rollup": "2.52.7",
-    "wright": "2.0.1"
+    "rollup": "2.70.1",
+    "wright": "2.1.1"
   },
   "files": [
     "rollup.js",
