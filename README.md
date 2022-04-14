@@ -71,11 +71,11 @@ const hql = HashQL(queries, {
 
 })
 
-app.post('/hashql', (req, res) => {
+app.post('/hql', (req, res) => {
   hql(req.body, req.user)
     .then(x => res.end(x))
     .catch((err) => {
-      res.statusCode = err.statusCode
+      res.statusCode = err.status
       res.end(err.message)
     })
 })
