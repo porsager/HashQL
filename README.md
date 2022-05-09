@@ -46,7 +46,7 @@ rollup({
 })
 ```
 
-> * Currently the build part is only available as a rollup plugin, but it should be fairly simple to support other bundlers or have it as a completely standalone module to run by itself. 
+> * Currently the build part is available as both a rollup and esbuild plugin, but it should be fairly simple to support other bundlers or have it as a completely standalone module to run by itself. 
 
 # The Server module
 
