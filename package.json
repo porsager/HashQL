@@ -19,6 +19,7 @@
     "wright": "2.1.1"
   },
   "files": [
+    "esbuild.js",
     "rollup.js",
     "client.js",
     "server.js"
