@@ -53,7 +53,7 @@ rollup({
 The Server Module handles the incoming queries and then calls the handler functions to do the actual query and return the result. This is fairly simple to implement with most libraries. Here is a sample with Node and [Postgres.js](https://github.com/porsager/postgres) requests
 
 ```js
-import HashQL from 'hashql/server'
+import HashQL from 'hashql/server.js'
 import postgres from 'postgres'
 
 const sql = postgres({ ... })
