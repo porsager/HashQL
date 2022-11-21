@@ -1,4 +1,4 @@
-module.exports = function(queries, handlers) {
+export default function(queries, handlers) {
   const get = typeof queries === 'function'
     ? queries
     : (hash, tag) => queries[tag] && queries[tag][hash]

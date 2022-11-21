@@ -2,8 +2,9 @@
   "name": "hashql",
   "version": "0.1.0",
   "description": "HashQL",
-  "main": "client.js",
-  "module": "client.js",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
   "author": "Rasmus Porsager <rasmus@porsager.com>",
   "repository": "porsager/hashql",
   "license": "WTFPL",
@@ -21,7 +22,7 @@
   "files": [
     "esbuild.js",
     "rollup.js",
-    "client.js",
+    "index.js",
     "server.js"
   ]
 }

@@ -1,9 +1,10 @@
-const crypto = require('crypto')
-    , recast = require('recast')
-    , astTypes = require('ast-types')
-    , util = require('@rollup/pluginutils')
+import crypto from 'crypto'
+import recast from 'recast'
+import astTypes from 'ast-types'
+import util from '@rollup/pluginutils'
+import acorn from 'acorn'
 
-module.exports = ({
+export default ({
   tags,
   output,
   include,
@@ -24,7 +25,7 @@ module.exports = ({
       const ast = recast.parse(code, {
         parser: {
           parse(source, opts) {
-            return require('acorn').parse(source, {
+            return acorn.parse(source, {
               ...opts,
               ecmaVersion: 2020,
               sourceType: 'module'

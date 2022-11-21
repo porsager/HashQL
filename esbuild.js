@@ -1,16 +1,17 @@
-const crypto = require('crypto'),
-  recast = require('recast'),
-  astTypes = require('ast-types'),
-  fs = require('fs/promises')
+import crypto from 'crypto'
+import recast from 'recast'
+import astTypes from 'ast-types'
+import fs from 'fs/promises'
+import acorn from 'acorn'
 
-module.exports = ({ tags, filter = /\.js/, output }) => {
+export default function({ tags, filter = /\.js/, output }) {
   return {
     name: 'hashql',
     setup(build) {
-      const queries = {},
-        matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
+      const queries = {}
+          , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
 
-      build.onLoad({ filter }, async (args) => {
+      build.onLoad({ filter }, async(args) => {
         const code = await fs.readFile(args.path, 'utf-8')
         if (!code.match(matchRegex)) {
           return {
@@ -21,7 +22,7 @@ module.exports = ({ tags, filter = /\.js/, output }) => {
         const ast = recast.parse(code, {
           parser: {
             parse(source, opts) {
-              return require('acorn').parse(source, {
+              return acorn.parse(source, {
                 ...opts,
                 ecmaVersion: 2020,
                 sourceType: 'module'
