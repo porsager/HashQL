@@ -1,9 +1,9 @@
-const http = require('http')
-    , ey = require('ey')
-    , bodyParser = require('body-parser')
-    , postgres = require('peegee')
-    , queries = require('./queries.json')
-    , HashQL = require('../../server.js')
+import http from 'http'
+import ey from 'ey'
+import bodyParser from 'body-parser'
+import postgres from 'peegee'
+import queries from './queries.json'
+import HashQL from '../../server.js'
 
 const sql = postgres('postgres://localhost/beat')
 

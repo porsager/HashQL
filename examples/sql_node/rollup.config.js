@@ -1,8 +1,8 @@
-const hql = require('../../rollup.js')
-const path = require('path')
-const fs = require('fs')
+import hql from '../../rollup.js'
+import path from 'path'
+import fs from 'fs'
 
-module.exports = {
+export default {
   input: 'src/index.js',
   plugins: [
     hql({

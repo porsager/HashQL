@@ -27,7 +27,7 @@ export default ({
           parse(source, opts) {
             return acorn.parse(source, {
               ...opts,
-              ecmaVersion: 2020,
+              ecmaVersion: 2022,
               sourceType: 'module'
             })
           }

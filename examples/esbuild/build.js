@@ -1,7 +1,8 @@
-const hashql = require('../../esbuild'),
-  fs = require('fs')
+import hashql from '../../esbuild'
+import fs from 'fs'
+import esbuild from 'esbuild'
 
-require('esbuild').build({
+esbuild.build({
   entryPoints: ['input.js'],
   bundle: true,
   outfile: 'output.js',

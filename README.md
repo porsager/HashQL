@@ -25,14 +25,14 @@ const { sql } = HashQL('sql', query =>
 await users = sql`select * from users`
 ```
 
-# The Build module 
+# The Build module
 
 The job of the build module<sup>*</sup> is to replace all HashQL instances in the client code with their corresponding hashes, and to store the pair for lookup by the server (could be in a json file or database).  
 
 ```js
-import HashQL from 'hashql/rollup'
+import HashQL from 'hashql/esbuild.js'
 
-rollup({
+esbuild.build({
   ...,
   plugins: [
     HashQL({
@@ -46,11 +46,11 @@ rollup({
 })
 ```
 
-> * Currently the build part is available as both a rollup and esbuild plugin, but it should be fairly simple to support other bundlers or have it as a completely standalone module to run by itself. 
+> * Currently the build part is available as both a esbuild and rollup plugin, but it should be fairly simple to support other bundlers or have it as a completely standalone module to run by itself. 
 
 # The Server module
 
-The Server Module handles the incoming queries and then calls the handler functions to do the actual query and return the result. This is fairly simple to implement with most libraries. Here is a sample with Node and [Postgres.js](https://github.com/porsager/postgres) requests
+The Server Module handles the incoming queries and then calls the handler functions to do the actual query and return the result. This is fairly simple to implement with most libraries. Here is a sample with Node and [Postgres.js](https://github.com/porsager/postgres) requests.
 
 ```js
 import HashQL from 'hashql/server.js'
