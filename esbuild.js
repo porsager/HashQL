@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import recast from 'recast'
 import astTypes from 'ast-types'
 import fs from 'fs/promises'
-import acorn from 'acorn'
+import { parse } from 'acorn'
 
 export default function({ tags, filter = /\.js/, output }) {
   return {
@@ -22,7 +22,7 @@ export default function({ tags, filter = /\.js/, output }) {
         const ast = recast.parse(code, {
           parser: {
             parse(source, opts) {
-              return acorn.parse(source, {
+              return parse(source, {
                 ...opts,
                 ecmaVersion: 2022,
                 sourceType: 'module'
