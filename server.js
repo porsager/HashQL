@@ -1,6 +1,9 @@
-export default function(queries, handlers) {
+import dedent from './dedent.js'
+
+export default function(queries, options, handlers) {
+  arguments.length === 2 && (handlers = options, options = {})
   const get = typeof queries === 'function'
-    ? queries
+    ? x => queries(options.dedent === false ? x : dedent(x))
     : (hash, tag) => queries[tag] && queries[tag][hash]
 
   return async function evaluate({ tag, hash, input }, context) {

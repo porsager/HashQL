@@ -8,7 +8,9 @@ export default ({
   tags,
   output,
   include,
-  exclude
+  exclude,
+  algorithm = 'md5',
+  dedent = true
 }) => {
   const queries = {}
       , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
@@ -61,14 +63,12 @@ export default ({
   }
 
   function add(tag, query) {
-    const md5 = crypto
-      .createHash('md5')
-      .update(query.join())
-      .digest('hex')
-
+    const hash = crypto.createHash(algorithm).update()
+    const dedented = dedent(query)
+    dedented.forEach(x => hash.update(x))
+    const checksum = hash.digest('hex')
     tag in queries === false && (queries[tag] = {})
-    queries[tag][md5] = query
-
-    return md5
+    queries[tag][checksum] = query
+    return checksum
   }
 }

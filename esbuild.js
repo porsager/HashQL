@@ -3,8 +3,9 @@ import recast from 'recast'
 import astTypes from 'ast-types'
 import fs from 'fs/promises'
 import { parse } from 'acorn'
+import dedent from './dedent.js'
 
-export default function({ tags, filter = /\.js/, output }) {
+export default function({ dedent = true, algorithm = 'md5', tags, filter = /\.js/, output }) {
   return {
     name: 'hashql',
     setup(build) {
@@ -62,10 +63,13 @@ export default function({ tags, filter = /\.js/, output }) {
       })
 
       function add(tag, query) {
-        const md5 = crypto.createHash('md5').update(query.join()).digest('hex')
+        const hash = crypto.createHash(algorithm).update()
+        const dedented = dedent(query)
+        dedented.forEach(x => hash.update(x))
+        const checksum = hash.digest('hex')
         tag in queries === false && (queries[tag] = {})
-        queries[tag][md5] = query
-        return md5
+        queries[tag][checksum] = query
+        return checksum
       }
     }
   }
