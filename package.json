@@ -9,18 +9,24 @@
   "repository": "porsager/hashql",
   "license": "WTFPL",
   "scripts": {
-    "test": "echo soon"
+    "test": "node test/index.js"
   },
   "dependencies": {
     "@rollup/pluginutils": "5.0.2",
-    "acorn": "8.8.1",
+    "acorn": "8.8.2",
     "ast-types": "0.14.2",
-    "recast": "0.20.5"
+    "fantestic": "0.0.3",
+    "recast": "0.22.0"
   },
   "files": [
+    "modify.js",
     "esbuild.js",
     "rollup.js",
     "index.js",
     "server.js"
-  ]
+  ],
+  "devDependencies": {
+    "esbuild": "0.17.10",
+    "rollup": "3.18.0"
+  }
 }
