@@ -1,74 +1,33 @@
-import crypto from 'crypto'
-import recast from 'recast'
-import astTypes from 'ast-types'
 import util from '@rollup/pluginutils'
-import acorn from 'acorn'
+import modify from './modify.js'
 
 export default ({
   tags,
   output,
-  include,
-  exclude,
   algorithm = 'md5',
-  dedent = true
+  dedent: shouldDedent = true
 }) => {
   const queries = {}
       , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
-      , filter = util.createFilter(include, exclude)
+      , filter = util.createFilter(null, 'node_modules')
 
   return {
-    transform: function(code, id) {
-      if (!filter(id))
+    transform: function(code, path, x, b) {
+      if (!filter(path))
         return
 
       if (!code.match(matchRegex))
         return null
 
-      const ast = recast.parse(code, {
-        parser: {
-          parse(source, opts) {
-            return acorn.parse(source, {
-              ...opts,
-              ecmaVersion: 2022,
-              sourceType: 'module'
-            })
-          }
-        },
-        sourceFileName: id
+      return modify({
+        shouldDedent,
+        algorithm,
+        queries,
+        code,
+        tags,
+        path
       })
-
-      astTypes.visit(ast, {
-        visitTaggedTemplateExpression(path) {
-          const n = path.node
-
-          if (!tags.includes(n.tag.name))
-            return this.traverse(path)
-
-          n.type = 'CallExpression'
-          n.arguments = [
-            {
-              type: 'Literal',
-              value: add(n.tag.name, n.quasi.quasis.map(x => x.value.cooked))
-            },
-            ...n.quasi.expressions
-          ]
-          n.callee = n.tag
-          this.traverse(path)
-        }
-      })
-
-      return recast.print(ast, { sourceMapName: 'map.json' })
     },
     buildEnd: () => output(queries)
-  }
-
-  function add(tag, query) {
-    const hash = crypto.createHash(algorithm).update()
-    const dedented = dedent(query)
-    dedented.forEach(x => hash.update(x))
-    const checksum = hash.digest('hex')
-    tag in queries === false && (queries[tag] = {})
-    queries[tag][checksum] = query
-    return checksum
   }
 }
