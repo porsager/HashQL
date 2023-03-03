@@ -19,6 +19,7 @@
     "recast": "0.22.0"
   },
   "files": [
+    "dedent.js",
     "modify.js",
     "esbuild.js",
     "rollup.js",
