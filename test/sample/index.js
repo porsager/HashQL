@@ -4,7 +4,7 @@ function fetch() {
   hej${ node`
 
 
-    wat ${8 }
+    wat ${ 8 }
 
     ` }
 
@@ -12,4 +12,4 @@ function fetch() {
     `
 }
 
-fetch();
+fetch()
