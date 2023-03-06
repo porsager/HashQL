@@ -10,7 +10,8 @@ export default function HashQL(queries, handlers) {
     : (h, t) => queries[t] && queries[t][h]
 
   return async function evaluate({ tag, hash, input }, context) {
-    const query = await get(hash, tag)
+    let query = get(hash, tag)
+    query && typeof query.then === 'function' && (query = await query)
 
     if (!query)
       throw Object.assign(new Error(hash + ' not found for ' + tag), { code: 'NOT_FOUND', status: 404 })
