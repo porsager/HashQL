@@ -1,10 +1,13 @@
 import dedent from './dedent.js'
 
-export default function(queries, options, handlers) {
-  arguments.length === 2 && (handlers = options, options = {})
+HashQL.dev = Symbol('dev')
+
+export default function HashQL(queries, handlers) {
   const get = typeof queries === 'function'
-    ? x => queries(options.dedent === false ? x : dedent(x))
-    : (hash, tag) => queries[tag] && queries[tag][hash]
+    ? queries
+    : queries === HashQL.dev
+    ? x => dedent(x)
+    : (h, t) => queries[t] && queries[t][h]
 
   return async function evaluate({ tag, hash, input }, context) {
     const query = await get(hash, tag)
