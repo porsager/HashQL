@@ -1,6 +1,6 @@
 {
   "name": "hashql",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "HashQL",
   "type": "module",
   "main": "index.js",
