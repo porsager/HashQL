@@ -28,7 +28,7 @@ export default function HashQL(queries, handlers) {
         context
       )
     ).then(
-      result => (ended(null, result), result),
+      result => (ended && ended(null, result), result),
       error => {
         ended && ended(error)
         throw error
