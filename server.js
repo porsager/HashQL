@@ -10,7 +10,8 @@ export default function HashQL(queries, handlers) {
     : (h, t) => queries[t] && queries[t][h]
 
   return async function evaluate({ tag, hash, input }, context) {
-    let query = get(hash, tag)
+    let ended
+    let query = get(hash, tag, fn => ended = fn)
     query && typeof query.then === 'function' && (query = await query)
 
     if (!query)
@@ -26,6 +27,12 @@ export default function HashQL(queries, handlers) {
         )),
         context
       )
+    ).then(
+      result => (ended(null, result), result),
+      error => {
+        ended && ended(error)
+        throw error
+      }
     )
   }
 }
