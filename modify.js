@@ -38,7 +38,7 @@ export default function({
       if (!tags.includes(tag))
         return this.traverse(x)
 
-      const query = n.quasi.quasis.map((x) => x.value.cooked)
+      const query = n.quasi.quasis.map((x) => x.value.raw)
       const dedented = shouldDedent ? dedent(query) : query
       const checksum = hashIt(
         [salt, tag, ...dedented].map(x => x && hashIt(x, algorithm)).join(''),
