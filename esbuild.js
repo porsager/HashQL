@@ -1,7 +1,13 @@
 import fs from 'fs/promises'
 import modify from './modify.js'
 
-export default function({ tags, output, algorithm = 'md5', dedent: shouldDedent = true }) {
+export default function({
+  salt,
+  tags,
+  output,
+  algorithm = 'md5',
+  dedent: shouldDedent = true
+}) {
   return {
     name: 'hashql',
     setup(build) {
@@ -23,6 +29,7 @@ export default function({ tags, output, algorithm = 'md5', dedent: shouldDedent 
           queries,
           code,
           tags,
+          salt,
           path: file.path
         })
 

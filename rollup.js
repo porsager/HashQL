@@ -1,12 +1,13 @@
 import util from '@rollup/pluginutils'
 import modify from './modify.js'
 
-export default ({
+export default function({
+  salt,
   tags,
   output,
   algorithm = 'md5',
   dedent: shouldDedent = true
-}) => {
+}) {
   const queries = {}
       , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
       , filter = util.createFilter(null, 'node_modules')
@@ -25,6 +26,7 @@ export default ({
         queries,
         code,
         tags,
+        salt,
         path
       })
     },
