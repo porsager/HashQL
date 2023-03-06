@@ -14,6 +14,7 @@ export default function({
   queries,
   code,
   tags,
+  salt,
   path
 }) {
   const ast = recast.parse(code, {
@@ -32,14 +33,19 @@ export default function({
   astTypes.visit(ast, {
     visitTaggedTemplateExpression(x) {
       const n = x.node
-      if (!tags.includes(n.tag.name))
+          , tag = n.tag.name
+
+      if (!tags.includes(tag))
         return this.traverse(x)
 
       const query = n.quasi.quasis.map((x) => x.value.cooked)
       const dedented = shouldDedent ? dedent(query) : query
-      const checksum = hashIt(dedented.map(x => hashIt(x, algorithm)).join(''), algorithm)
-      n.tag.name in queries === false && (queries[n.tag.name] = {})
-      queries[n.tag.name][checksum] = Object.assign(dedented, {
+      const checksum = hashIt(
+        [salt, tag, ...dedented].map(x => x && hashIt(x, algorithm)).join(''),
+        algorithm
+      )
+      tag in queries === false && (queries[tag] = {})
+      queries[tag][checksum] = Object.assign(dedented, {
         file: path.replace(cwd, ''),
         line: n.loc.start.line,
         column: n.loc.start.column
