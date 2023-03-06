@@ -19,8 +19,11 @@ export default function({
       })
 
       build.onLoad({ filter: /./ }, async(file) => {
+        if (file.path.includes('node_modules'))
+          return undefined
+
         const code = await fs.readFile(file.path, 'utf-8')
-        if (file.path.includes('node_modules') || !code.match(matchRegex))
+        if (!code.match(matchRegex))
           return undefined
 
         const modified = modify({
