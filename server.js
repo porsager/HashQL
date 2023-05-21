@@ -22,7 +22,7 @@ export default function HashQL(queries, handlers) {
         Object.assign(query, { raw: query }),
         await Promise.all(input.map(x =>
           x.query
-            ? evaluate(x.query)
+            ? evaluate(x.query, context)
             : x.value
         )),
         context
