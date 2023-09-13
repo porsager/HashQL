@@ -15,7 +15,9 @@ export default function({
           , matchRegex = new RegExp('(' + [].concat(tags).join('|') + ')`')
 
       build.onEnd(x => {
-        x.errors.length || output(queries)
+        x.errors.length || output(
+          Object.keys(queries).sort().reduce((acc, k) => (acc[k] = queries[k], acc), {})
+        )
       })
 
       build.onLoad({ filter: /./ }, async(file) => {

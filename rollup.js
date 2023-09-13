@@ -30,6 +30,8 @@ export default function({
         path
       })
     },
-    buildEnd: () => output(queries)
+    buildEnd: () => output(
+      Object.keys(queries).sort().reduce((acc, k) => (acc[k] = queries[k], acc), {})
+    )
   }
 }
