@@ -31,7 +31,13 @@ export default function({
       })
     },
     buildEnd: () => output(
-      Object.keys(queries).sort().reduce((acc, k) => (acc[k] = queries[k], acc), {})
+      Object.keys(queries).sort().reduce((acc, k) => {
+        acc[k] = Object.keys(queries[k]).sort().reduce((acc2, k2) => {
+          acc2[k2] = queries[k][k2]
+          return acc2
+        }, {})
+        return acc
+      }, {})
     )
   }
 }
