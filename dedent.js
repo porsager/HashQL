@@ -10,6 +10,7 @@ const indented = (xs) => xs.reduce(
 ) | 0
 
 export default function dedent(xs, ...args) {
+  xs = Array.from(xs)
   const min = indented(xs)
   xs[0] = xs[0].replace(/^[\r\n\t ]+/g, '')
   xs[xs.length - 1] = xs[xs.length - 1].replace(/[\r\n\t ]+$/g, '')
