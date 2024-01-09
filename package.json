@@ -8,6 +8,9 @@
   "author": "Rasmus Porsager <rasmus@porsager.com>",
   "repository": "porsager/hashql",
   "license": "WTFPL",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "test": "node test/index.js"
   },

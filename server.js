@@ -7,20 +7,20 @@ export default function HashQL(queries, handlers) {
     ? queries
     : queries === HashQL.dev
     ? x => dedent(x)
-    : (h, t) => queries[t] && queries[t][h]
+    : ({ hash, tag }) => queries[tag] && queries[tag][hash]
 
-  return async function evaluate({ tag, hash, input }, context) {
+  return async function evaluate(x, context) {
     let ended
-    let query = get(hash, tag, fn => ended = fn)
+    let query = get(x, context, fn => ended = fn)
     query && typeof query.then === 'function' && (query = await query)
 
     if (!query)
-      throw Object.assign(new Error(hash + ' not found for ' + tag), { code: 'NOT_FOUND', status: 404 })
+      throw Object.assign(new Error(x.hash + ' not found for ' + x.tag), { code: 'NOT_FOUND', status: 404 })
 
     return Promise.resolve(
-      handlers[tag](
+      handlers[x.tag](
         Object.assign(query, { raw: query }),
-        await Promise.all(input.map(x =>
+        await Promise.all(x.input.map(x =>
           x.query
             ? evaluate(x.query, context)
             : x.value
