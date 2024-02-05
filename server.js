@@ -6,7 +6,7 @@ export default function HashQL(queries, handlers) {
   const get = typeof queries === 'function'
     ? queries
     : queries === HashQL.dev
-    ? x => dedent(x)
+    ? ({ hash }) => dedent(hash)
     : ({ hash, tag }) => queries[tag] && queries[tag][hash]
 
   return async function evaluate(x, context) {
