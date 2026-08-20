@@ -6,7 +6,8 @@ export default function({
   tags,
   output,
   algorithm = 'md5',
-  dedent: shouldDedent = true
+  dedent: shouldDedent = true,
+  whitelist = []
 }) {
   return {
     name: 'hashql',
@@ -27,7 +28,7 @@ export default function({
       })
 
       build.onLoad({ filter: /./ }, async(file) => {
-        if (file.path.includes('node_modules'))
+        if (file.path.includes('node_modules') && !(whitelist.length !== 0 && whitelist.some(x => file.path.replace(/\\/g, '/').includes('/node_modules/' + x + '/'))))
           return undefined
 
         const code = await fs.readFile(file.path, 'utf-8')
