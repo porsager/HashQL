@@ -33,7 +33,7 @@ export default function({
   astTypes.visit(ast, {
     visitTaggedTemplateExpression(x) {
       const n = x.node
-          , tag = n.tag.name
+          , tag = !n.tag.computed && (n.tag.property || n.tag).name
 
       if (!tags.includes(tag))
         return this.traverse(x)
@@ -66,4 +66,3 @@ export default function({
 
   return recast.print(ast, { sourceMapName: 'map.json' })
 }
-
